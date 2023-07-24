@@ -45,3 +45,12 @@ my_cur.execute("SELECT * FROM fruit_load_list")
 my_data_rows = my_cur.fetchall()
 streamlit.header("This fruit load list contains:")
 streamlit.dataframe(my_data_rows)
+
+new_fruit = streamlit.text_input('Add a new fruit to the list:')
+if new_fruit:
+    # Assuming 'fruit_load_list' is the table in the Snowflake database where you want to add the new fruit
+    # Replace 'column_name' with the actual column name in your table where you want to store the new fruit
+    query = f"INSERT INTO fruit_load_list (column_name) VALUES ('{new_fruit}')"
+    my_cur.execute(query)
+    my_cnx.commit()
+    streamlit.success(f"Successfully added {new_fruit} to the list!")
